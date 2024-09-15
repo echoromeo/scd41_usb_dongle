@@ -28,7 +28,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
+#include <util/delay.h>
+#include "mcc_generated_files/i2c_host/twi0.h"
 #include "embedded-i2c-scd4x/sensirion_i2c_hal.h"
 #include "embedded-i2c-scd4x/sensirion_common.h"
 #include "embedded-i2c-scd4x/sensirion_config.h"
@@ -55,7 +56,7 @@ int16_t sensirion_i2c_hal_select_bus(uint8_t bus_idx) {
     /* TODO:IMPLEMENT or leave empty if all sensors are located on one single
      * bus
      */
-    return NOT_IMPLEMENTED_ERROR;
+    return NO_ERROR; //NOT_IMPLEMENTED_ERROR;
 }
 
 /**
@@ -63,14 +64,14 @@ int16_t sensirion_i2c_hal_select_bus(uint8_t bus_idx) {
  * communication.
  */
 void sensirion_i2c_hal_init(void) {
-    /* TODO:IMPLEMENT */
+    /* Done by MCC */
 }
 
 /**
  * Release all resources initialized by sensirion_i2c_hal_init().
  */
 void sensirion_i2c_hal_free(void) {
-    /* TODO:IMPLEMENT or leave empty if no resources need to be freed */
+    /* leave empty if no resources need to be freed */
 }
 
 /**
@@ -84,8 +85,13 @@ void sensirion_i2c_hal_free(void) {
  * @returns 0 on success, error code otherwise
  */
 int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
-    /* TODO:IMPLEMENT */
-    return NOT_IMPLEMENTED_ERROR;
+
+    I2C_Host.Read(address, data, count);
+	while (I2C_Host.IsBusy())
+	{
+	}
+	
+	return I2C_Host.ErrorGet();
 }
 
 /**
@@ -102,7 +108,12 @@ int8_t sensirion_i2c_hal_read(uint8_t address, uint8_t* data, uint16_t count) {
 int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
                                uint16_t count) {
     /* TODO:IMPLEMENT */
-    return NOT_IMPLEMENTED_ERROR;
+    I2C_Host.Write(address, (uint8_t*)data, count);
+    while (I2C_Host.IsBusy())
+    {
+    }
+    
+    return I2C_Host.ErrorGet();
 }
 
 /**
@@ -114,5 +125,8 @@ int8_t sensirion_i2c_hal_write(uint8_t address, const uint8_t* data,
  * @param useconds the sleep time in microseconds
  */
 void sensirion_i2c_hal_sleep_usec(uint32_t useconds) {
-    /* TODO:IMPLEMENT */
+	for (uint32_t i = 0; i < useconds / 1000; i++)
+	{
+	    _delay_ms(1);
+	}
 }
