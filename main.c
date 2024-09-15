@@ -96,8 +96,8 @@ int main(void)
 		    printf("Invalid sample detected, skipping.\n");
 		    } else {
 		    printf("CO2: %u\n", co2);
-		    printf("Temperature: %d m°C\n", temperature);
-		    printf("Humidity: %d mRH\n", humidity);
+		    printf("Temperature: %2.1f °C\n", temperature/1000.0);
+		    printf("Humidity: %2.1f RH\n", humidity/1000.0);
 	    }
     }
 }
