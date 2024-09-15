@@ -120,6 +120,30 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="embedded-i2c-scd4x\scd4x_i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\scd4x_i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_common.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_common.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="embedded-i2c-scd4x\sensirion_i2c_hal.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -204,8 +228,12 @@
     <Compile Include="mcc_generated_files\system\utils\utils_assert.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensirion_i2c_hal.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="embedded-i2c-scd4x\" />
     <Folder Include="mcc_generated_files\" />
     <Folder Include="mcc_generated_files\i2c_host\" />
     <Folder Include="mcc_generated_files\i2c_host\src\" />
