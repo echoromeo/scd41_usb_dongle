@@ -1,17 +1,16 @@
- /*
- * MAIN Generated Driver File
+/**
+ * System Driver Source File
  * 
- * @file main.c
+ * @file system.c
  * 
- * @defgroup main MAIN
+ * @ingroup systemdriver
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API implementation for the System driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 1.0.2
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 4.2.14
 */
-
 /*
 © [2024] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,17 +31,14 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
+#include "../system.h"
 
-int main(void)
+void SYSTEM_Initialize(void)
 {
-    SYSTEM_Initialize();
-
-    while(1)
-    {
-    }    
+    CLOCK_Initialize();
+    PIN_MANAGER_Initialize();
+    I2C_Host_Initialize();
+    CPUINT_Initialize();
 }
+

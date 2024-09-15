@@ -1,15 +1,13 @@
- /*
- * MAIN Generated Driver File
- * 
- * @file main.c
- * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+/**
+ * I2C Generated Driver API Header File
  *
- * @version MAIN Driver Version 1.0.2
+ * @file i2c_host_types.h
  *
- * @version Package Version: 3.1.2
+ * @defgroup i2c I2C
+ *
+ * @brief This header file provides APIs for the I2C driver.
+ *
+ * @version I2C Driver Version 2.0.2
 */
 
 /*
@@ -32,17 +30,31 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
+#ifndef I2C_HOST_TYPES_H
+#define	I2C_HOST_TYPES_H
 
-int main(void)
+/**
+ * @ingroup i2c
+ * @typedef enum i2c_host_error_t
+ * @brief Enumeration for I2C_ERROR code
+ */ 
+typedef enum
 {
-    SYSTEM_Initialize();
+    I2C_ERROR_NONE,             /* No Error */
+    I2C_ERROR_ADDR_NACK,
+    I2C_ERROR_DATA_NACK,
+    I2C_ERROR_BUS_COLLISION,    /* Bus Collision Error */
+}i2c_host_error_t;
 
-    while(1)
-    {
-    }    
-}
+/**
+ * @ingroup i2c
+ * @struct I2C_TRANSFER_SETUP structure
+ * @brief Structure for I2C Clock Speed (100KHZ to 1MHZ)
+ */
+struct I2C_TRANSFER_SETUP
+{
+  uint32_t clkSpeed;            // I2C Clock Speed 
+};
+
+#endif // end of I2C_HOST_TYPES_H

@@ -1,17 +1,14 @@
- /*
- * MAIN Generated Driver File
+/**
+ * Assembler Header File
  * 
- * @file main.c
+ * @file assembler.h
  * 
- * @defgroup main MAIN
+ * @ingroup config_bitsdriver
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the assembler header file for the configuration bits driver.
  *
- * @version MAIN Driver Version 1.0.2
- *
- * @version Package Version: 3.1.2
+ * @version Driver Version 1.0.0
 */
-
 /*
 © [2024] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,17 +29,21 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
 
-int main(void)
-{
-    SYSTEM_Initialize();
+#ifndef ASSEMBLER_H_INCLUDED
+#define ASSEMBLER_H_INCLUDED
 
-    while(1)
-    {
-    }    
-}
+#if !defined(__ASSEMBLER__) && !defined(__IAR_SYSTEMS_ASM__) && !defined(__DOXYGEN__)
+#error This file may only be included from assembly files
+#endif
+
+#if defined(__ASSEMBLER__)
+#include "assembler/gas.h"
+#include <avr/io.h>
+#elif defined(__IAR_SYSTEMS_ASM__)
+#include "assembler/iar.h"
+#include <ioavr.h>
+#endif
+
+#endif /* ASSEMBLER_H_INCLUDED */

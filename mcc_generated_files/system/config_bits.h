@@ -1,17 +1,17 @@
- /*
- * MAIN Generated Driver File
+/**
+ * CONFIGURATION BITS Generated Driver Header File
  * 
- * @file main.c
+ * @file config_bits.h
  * 
- * @defgroup main MAIN
+ * @defgroup config_bitsdriver CONFIGBITS Driver 
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API Prototypes for the Configuration Bits driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 1.0.5
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 4.2.14
 */
-
+    
 /*
 © [2024] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,17 +32,13 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
+#ifndef CONFIG_BITS_H
+#define	CONFIG_BITS_H
+
+#include "../system/clock.h"
+
+#endif //CONFIG_BITS_H
+/**
+ End of File
 */
-
-int main(void)
-{
-    SYSTEM_Initialize();
-
-    while(1)
-    {
-    }    
-}

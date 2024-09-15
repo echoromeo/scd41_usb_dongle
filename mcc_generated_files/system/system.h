@@ -1,17 +1,16 @@
- /*
- * MAIN Generated Driver File
+/**
+ * System Driver Header File
  * 
- * @file main.c
+ * @file system.h
  * 
- * @defgroup main MAIN
+ * @defgroup systemdriver System Driver
  * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @brief This file contains the API prototype for the System Driver.
  *
- * @version MAIN Driver Version 1.0.2
+ * @version Driver Version 1.0.2
  *
- * @version Package Version: 3.1.2
+ * @version Package Version 4.2.14
 */
-
 /*
 © [2024] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,17 +31,33 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
+
+#ifndef MCC_H
+#define	MCC_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../system/utils/compiler.h"
+#include "config_bits.h"
+#include "../system/pins.h"
+#include "../i2c_host/twi0.h"
+#include "../system/interrupt.h"
+#include "../system/clock.h"
+/**
+ * @ingroup systemdriver
+ * @brief Initializes the System module. This routine is called only once during system initialization, before calling any other API.
+ * @param None.
+ * @return None.
 */
+void SYSTEM_Initialize(void);
 
-int main(void)
-{
-    SYSTEM_Initialize();
-
-    while(1)
-    {
-    }    
+#ifdef __cplusplus
 }
+#endif
+#endif	/* MCC_H */
+/**
+ End of File
+*/

@@ -1,15 +1,13 @@
- /*
- * MAIN Generated Driver File
- * 
- * @file main.c
- * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+/**
+ * Interrupt Manager Generated Driver File.
  *
- * @version MAIN Driver Version 1.0.2
- *
- * @version Package Version: 3.1.2
+ * @file interrupt.c
+ * 
+ * @ingroup interrupt 
+ * 
+ * @brief This file contains the API implementation for the Interrupt Manager.
+ * 
+ * @version Interrupt Manager Driver Version 1.0.0
 */
 
 /*
@@ -32,17 +30,24 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
 
-int main(void)
+#include "../interrupt.h"
+
+int8_t CPUINT_Initialize()
 {
-    SYSTEM_Initialize();
+    /* IVSEL and CVT are Configuration Change Protected */
 
-    while(1)
-    {
-    }    
+    //CVT disabled; IVSEL disabled; LVL0RR disabled; 
+    ccp_write_io((void*)&(CPUINT.CTRLA),0x0);
+    
+    //LVL0PRI 0; 
+    CPUINT.LVL0PRI = 0x0;
+    
+    //LVL1VEC 0; 
+    CPUINT.LVL1VEC = 0x0;
+
+    ENABLE_INTERRUPTS(); 
+        
+    return 0;
 }

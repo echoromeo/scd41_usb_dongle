@@ -1,15 +1,13 @@
- /*
- * MAIN Generated Driver File
- * 
- * @file main.c
- * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+/**
+ * I2C Generated Driver API Header File
  *
- * @version MAIN Driver Version 1.0.2
+ * @file {moduleGroupNameLowerCase}_host_event_types.h
  *
- * @version Package Version: 3.1.2
+ * @defgroup i2c_host_event I2C_HOST_EVENT
+ *
+ * @brief This header file provides APIs for the I2C driver.
+ *
+ * @version I2C Driver Version 2.0.2
 */
 
 /*
@@ -32,17 +30,46 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
+#ifndef I2C_HOST_EVENT_TYPES_H
+#define	I2C_HOST_EVENT_TYPES_H
 
-int main(void)
+#include "i2c_host_types.h"
+
+/**
+ * @ingroup i2c_host_event
+ * @typedef enum i2c_event_states_t
+ * @brief Enumeration for I2C states.
+ */
+typedef enum
 {
-    SYSTEM_Initialize();
+    I2C_STATE_IDLE = 0,
+    I2C_STATE_SEND_RD_ADDR,
+    I2C_STATE_SEND_WR_ADDR,
+    I2C_STATE_TX,
+    I2C_STATE_RX,
+    I2C_STATE_NACK,
+    I2C_STATE_ERROR,
+    I2C_STATE_STOP,
+    I2C_STATE_RESET
+} i2c_event_states_t;
 
-    while(1)
-    {
-    }    
-}
+/**
+ * @ingroup i2c_host_event
+ * @typedef struct i2c_event_status_t
+ * @brief I2C Event Status Structure.
+ */
+typedef struct
+{
+    bool busy;
+    uint16_t address;
+    uint8_t *writePtr;
+    size_t writeLength;
+    uint8_t *readPtr;
+    size_t readLength;
+    bool switchToRead;
+    i2c_host_error_t errorState; 
+    i2c_event_states_t state;
+} i2c_event_status_t;
+
+#endif // end of I2C_HOST_EVENT_TYPES_H

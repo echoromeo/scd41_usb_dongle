@@ -1,17 +1,14 @@
- /*
- * MAIN Generated Driver File
+/**
+ * Compiler Header File
  * 
- * @file main.c
+ * @file compiler.h
  * 
- * @defgroup main MAIN
- * 
- * @brief This is the generated driver implementation file for the MAIN driver.
+ * @defgroup doc_driver_utils_compiler Compiler abstraction
  *
- * @version MAIN Driver Version 1.0.2
+ * @brief This file contains the compiler abstraction layer and code utilities for 8-bit AVR. This module provides various abstraction layers and utilities to make code compatible between different compilers.
  *
- * @version Package Version: 3.1.2
+ * @version Driver Version 1.0.0
 */
-
 /*
 © [2024] Microchip Technology Inc. and its subsidiaries.
 
@@ -32,17 +29,44 @@
     EXCEED AMOUNT OF FEES, IF ANY, YOU PAID DIRECTLY TO MICROCHIP FOR 
     THIS SOFTWARE.
 */
-#include "mcc_generated_files/system/system.h"
 
-/*
-    Main application
-*/
 
-int main(void)
-{
-    SYSTEM_Initialize();
+#ifndef UTILS_COMPILER_H
+#define UTILS_COMPILER_H
 
-    while(1)
-    {
-    }    
-}
+#if defined(__GNUC__)
+#include <avr/io.h>
+#include <avr/builtins.h>
+#if defined(__XC8__)
+#include <xc.h>
+#endif
+#elif defined(__ICCAVR__)
+#define ENABLE_BIT_DEFINITIONS 1
+#include <ioavr.h>
+#include <intrinsics.h>
+
+#ifndef CCP_IOREG_gc
+#define CCP_IOREG_gc 0xD8 /* CPU_CCP_IOREG_gc */
+#endif
+#ifndef CCP_SPM_gc
+#define CCP_SPM_gc 0x9D /* CPU_CCP_SPM_gc */
+#endif
+
+#else
+#error Unsupported compiler.
+#endif
+
+#include <stdbool.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdlib.h>
+
+#include "interrupt_avr8.h"
+
+/**
+ * @def UNUSED
+ * @brief Marking \a v as a unused parameter or value.
+ */
+#define UNUSED(v) (void)(v)
+
+#endif /* UTILS_COMPILER_H */
