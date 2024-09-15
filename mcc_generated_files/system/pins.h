@@ -38,6 +38,44 @@
 #include <avr/io.h>
 #include "./port.h"
 
+//get/set COM_RX aliases
+#define COM_RX_SetHigh() do { PORTD_OUTSET = 0x80; } while(0)
+#define COM_RX_SetLow() do { PORTD_OUTCLR = 0x80; } while(0)
+#define COM_RX_Toggle() do { PORTD_OUTTGL = 0x80; } while(0)
+#define COM_RX_GetValue() (VPORTD.IN & (0x1 << 7))
+#define COM_RX_SetDigitalInput() do { PORTD_DIRCLR = 0x80; } while(0)
+#define COM_RX_SetDigitalOutput() do { PORTD_DIRSET = 0x80; } while(0)
+#define COM_RX_SetPullUp() do { PORTD_PIN7CTRL  |= PORT_PULLUPEN_bm; } while(0)
+#define COM_RX_ResetPullUp() do { PORTD_PIN7CTRL  &= ~PORT_PULLUPEN_bm; } while(0)
+#define COM_RX_SetInverted() do { PORTD_PIN7CTRL  |= PORT_INVEN_bm; } while(0)
+#define COM_RX_ResetInverted() do { PORTD_PIN7CTRL  &= ~PORT_INVEN_bm; } while(0)
+#define COM_RX_DisableInterruptOnChange() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x0 ; } while(0)
+#define COM_RX_EnableInterruptForBothEdges() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x1 ; } while(0)
+#define COM_RX_EnableInterruptForRisingEdge() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x2 ; } while(0)
+#define COM_RX_EnableInterruptForFallingEdge() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x3 ; } while(0)
+#define COM_RX_DisableDigitalInputBuffer() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
+#define COM_RX_EnableInterruptForLowLevelSensing() do { PORTD.PIN7CTRL = (PORTD.PIN7CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
+#define PD7_SetInterruptHandler COM_RX_SetInterruptHandler
+
+//get/set COM_TX aliases
+#define COM_TX_SetHigh() do { PORTD_OUTSET = 0x40; } while(0)
+#define COM_TX_SetLow() do { PORTD_OUTCLR = 0x40; } while(0)
+#define COM_TX_Toggle() do { PORTD_OUTTGL = 0x40; } while(0)
+#define COM_TX_GetValue() (VPORTD.IN & (0x1 << 6))
+#define COM_TX_SetDigitalInput() do { PORTD_DIRCLR = 0x40; } while(0)
+#define COM_TX_SetDigitalOutput() do { PORTD_DIRSET = 0x40; } while(0)
+#define COM_TX_SetPullUp() do { PORTD_PIN6CTRL  |= PORT_PULLUPEN_bm; } while(0)
+#define COM_TX_ResetPullUp() do { PORTD_PIN6CTRL  &= ~PORT_PULLUPEN_bm; } while(0)
+#define COM_TX_SetInverted() do { PORTD_PIN6CTRL  |= PORT_INVEN_bm; } while(0)
+#define COM_TX_ResetInverted() do { PORTD_PIN6CTRL  &= ~PORT_INVEN_bm; } while(0)
+#define COM_TX_DisableInterruptOnChange() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x0 ; } while(0)
+#define COM_TX_EnableInterruptForBothEdges() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x1 ; } while(0)
+#define COM_TX_EnableInterruptForRisingEdge() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x2 ; } while(0)
+#define COM_TX_EnableInterruptForFallingEdge() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x3 ; } while(0)
+#define COM_TX_DisableDigitalInputBuffer() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x4 ; } while(0)
+#define COM_TX_EnableInterruptForLowLevelSensing() do { PORTD.PIN6CTRL = (PORTD.PIN6CTRL & ~PORT_ISC_gm) | 0x5 ; } while(0)
+#define PD6_SetInterruptHandler COM_TX_SetInterruptHandler
+
 //get/set SCL aliases
 #define SCL_SetHigh() do { PORTA_OUTSET = 0x8; } while(0)
 #define SCL_SetLow() do { PORTA_OUTCLR = 0x8; } while(0)
@@ -121,6 +159,48 @@
  * @return none
  */
 void PIN_MANAGER_Initialize();
+
+/**
+ * @ingroup  pinsdriver
+ * @brief Default Interrupt Handler for COM_RX pin. 
+ *        This is a predefined interrupt handler to be used together with the COM_RX_SetInterruptHandler() method.
+ *        This handler is called every time the COM_RX ISR is executed. 
+ * @pre PIN_MANAGER_Initialize() has been called at least once
+ * @param none
+ * @return none
+ */
+void COM_RX_DefaultInterruptHandler(void);
+
+/**
+ * @ingroup  pinsdriver
+ * @brief Interrupt Handler Setter for COM_RX pin input-sense-config functionality.
+ *        Allows selecting an interrupt handler for COM_RX at application runtime
+ * @pre PIN_MANAGER_Initialize() has been called at least once
+ * @param InterruptHandler function pointer.
+ * @return none
+ */
+void COM_RX_SetInterruptHandler(void (* interruptHandler)(void)) ; 
+
+/**
+ * @ingroup  pinsdriver
+ * @brief Default Interrupt Handler for COM_TX pin. 
+ *        This is a predefined interrupt handler to be used together with the COM_TX_SetInterruptHandler() method.
+ *        This handler is called every time the COM_TX ISR is executed. 
+ * @pre PIN_MANAGER_Initialize() has been called at least once
+ * @param none
+ * @return none
+ */
+void COM_TX_DefaultInterruptHandler(void);
+
+/**
+ * @ingroup  pinsdriver
+ * @brief Interrupt Handler Setter for COM_TX pin input-sense-config functionality.
+ *        Allows selecting an interrupt handler for COM_TX at application runtime
+ * @pre PIN_MANAGER_Initialize() has been called at least once
+ * @param InterruptHandler function pointer.
+ * @return none
+ */
+void COM_TX_SetInterruptHandler(void (* interruptHandler)(void)) ; 
 
 /**
  * @ingroup  pinsdriver

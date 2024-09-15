@@ -34,6 +34,8 @@
 
 #include "../pins.h"
 
+static void (*COM_RX_InterruptHandler)(void);
+static void (*COM_TX_InterruptHandler)(void);
 static void (*SCL_InterruptHandler)(void);
 static void (*SDA_InterruptHandler)(void);
 static void (*SW0_InterruptHandler)(void);
@@ -45,13 +47,13 @@ void PIN_MANAGER_Initialize()
   /* OUT Registers Initialization */
     PORTA.OUT = 0x0;
     PORTC.OUT = 0x0;
-    PORTD.OUT = 0x0;
+    PORTD.OUT = 0x40;
     PORTF.OUT = 0x0;
 
   /* DIR Registers Initialization */
     PORTA.DIR = 0xC;
     PORTC.DIR = 0x0;
-    PORTD.DIR = 0x0;
+    PORTD.DIR = 0x40;
     PORTF.DIR = 0x4;
 
   /* PINxCTRL registers Initialization */
@@ -95,15 +97,43 @@ void PIN_MANAGER_Initialize()
     PORTMUX.TCAROUTEA = 0x0;
     PORTMUX.TCBROUTEA = 0x0;
     PORTMUX.TWIROUTEA = 0x0;
-    PORTMUX.USARTROUTEA = 0x0;
+    PORTMUX.USARTROUTEA = 0x10;
 
   // register default ISC callback functions at runtime; use these methods to register a custom function
+    COM_RX_SetInterruptHandler(COM_RX_DefaultInterruptHandler);
+    COM_TX_SetInterruptHandler(COM_TX_DefaultInterruptHandler);
     SCL_SetInterruptHandler(SCL_DefaultInterruptHandler);
     SDA_SetInterruptHandler(SDA_DefaultInterruptHandler);
     SW0_SetInterruptHandler(SW0_DefaultInterruptHandler);
     LED0_SetInterruptHandler(LED0_DefaultInterruptHandler);
 }
 
+/**
+  Allows selecting an interrupt handler for COM_RX at application runtime
+*/
+void COM_RX_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    COM_RX_InterruptHandler = interruptHandler;
+}
+
+void COM_RX_DefaultInterruptHandler(void)
+{
+    // add your COM_RX interrupt custom code
+    // or set custom function using COM_RX_SetInterruptHandler()
+}
+/**
+  Allows selecting an interrupt handler for COM_TX at application runtime
+*/
+void COM_TX_SetInterruptHandler(void (* interruptHandler)(void)) 
+{
+    COM_TX_InterruptHandler = interruptHandler;
+}
+
+void COM_TX_DefaultInterruptHandler(void)
+{
+    // add your COM_TX interrupt custom code
+    // or set custom function using COM_TX_SetInterruptHandler()
+}
 /**
   Allows selecting an interrupt handler for SCL at application runtime
 */
@@ -179,6 +209,15 @@ ISR(PORTC_PORT_vect)
 
 ISR(PORTD_PORT_vect)
 { 
+    // Call the interrupt handler for the callback registered at runtime
+    if(VPORTD.INTFLAGS & PORT_INT7_bm)
+    {
+       COM_RX_InterruptHandler(); 
+    }
+    if(VPORTD.INTFLAGS & PORT_INT6_bm)
+    {
+       COM_TX_InterruptHandler(); 
+    }
     /* Clear interrupt flags */
     VPORTD.INTFLAGS = 0xff;
 }

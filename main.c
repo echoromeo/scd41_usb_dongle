@@ -59,19 +59,19 @@ int main(void)
     uint16_t serial_2;
     error = scd4x_get_serial_number(&serial_0, &serial_1, &serial_2);
     if (error) {
-/*	    printf("Error executing scd4x_get_serial_number(): %i\n", error);*/
+	    printf("Error executing scd4x_get_serial_number(): %i\n", error);
 	    } else {
-/*	    printf("serial: 0x%04x%04x%04x\n", serial_0, serial_1, serial_2);*/
+	    printf("serial: 0x%04x%04x%04x\n", serial_0, serial_1, serial_2);
     }
 
     // Start Measurement
 
     error = scd4x_start_periodic_measurement();
     if (error) {
-/*	    printf("Error executing scd4x_start_periodic_measurement(): %i\n",error);*/
+	    printf("Error executing scd4x_start_periodic_measurement(): %i\n",error);
     }
 
-/*    printf("Waiting for first measurement... (5 sec)\n");*/
+    printf("Waiting for first measurement... (5 sec)\n");
 
     for (;;) {
 	    // Read Measurement
@@ -79,7 +79,7 @@ int main(void)
 	    bool data_ready_flag = false;
 	    error = scd4x_get_data_ready_flag(&data_ready_flag);
 	    if (error) {
-/*		    printf("Error executing scd4x_get_data_ready_flag(): %i\n", error);*/
+		    printf("Error executing scd4x_get_data_ready_flag(): %i\n", error);
 		    continue;
 	    }
 	    if (!data_ready_flag) {
@@ -91,13 +91,13 @@ int main(void)
 	    int32_t humidity;
 	    error = scd4x_read_measurement(&co2, &temperature, &humidity);
 	    if (error) {
-/*		    printf("Error executing scd4x_read_measurement(): %i\n", error);*/
+		    printf("Error executing scd4x_read_measurement(): %i\n", error);
 		    } else if (co2 == 0) {
-/*		    printf("Invalid sample detected, skipping.\n");*/
+		    printf("Invalid sample detected, skipping.\n");
 		    } else {
-// 		    printf("CO2: %u\n", co2);
-// 		    printf("Temperature: %d m°C\n", temperature);
-// 		    printf("Humidity: %d mRH\n", humidity);
+		    printf("CO2: %u\n", co2);
+		    printf("Temperature: %d m°C\n", temperature);
+		    printf("Humidity: %d mRH\n", humidity);
 	    }
     }
 }

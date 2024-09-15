@@ -40,6 +40,22 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.nedbg</avrtool>
+    <avrtoolserialnumber>MC020059801HIP000050</avrtoolserialnumber>
+    <avrdeviceexpectedsignature>0x1E9621</avrdeviceexpectedsignature>
+    <avrtoolinterface>UPDI</avrtoolinterface>
+    <com_atmel_avrdbg_tool_nedbg>
+      <ToolOptions>
+        <InterfaceProperties>
+          <UpdiClock>750000</UpdiClock>
+        </InterfaceProperties>
+        <InterfaceName>UPDI</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.nedbg</ToolType>
+      <ToolNumber>MC020059801HIP000050</ToolNumber>
+      <ToolName>nEDBG</ToolName>
+    </com_atmel_avrdbg_tool_nedbg>
+    <avrtoolinterfaceclock>750000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -202,6 +218,18 @@
     <Compile Include="mcc_generated_files\system\utils\utils_assert.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="mcc_generated_files\uart\src\usart1.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mcc_generated_files\uart\uart_drv_interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mcc_generated_files\uart\uart_types.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="mcc_generated_files\uart\usart1.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sensirion_i2c_hal.c">
       <SubType>compile</SubType>
     </Compile>
@@ -215,6 +243,8 @@
     <Folder Include="mcc_generated_files\system\src\" />
     <Folder Include="mcc_generated_files\system\utils\" />
     <Folder Include="mcc_generated_files\system\utils\assembler\" />
+    <Folder Include="mcc_generated_files\uart\" />
+    <Folder Include="mcc_generated_files\uart\src\" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
